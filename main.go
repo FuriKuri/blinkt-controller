@@ -93,7 +93,7 @@ func (c *BlinktController) PodAdded(obj interface{}) {
 
 	fmt.Println(blinktIP)
 	fmt.Println(val)
-	color := LedColor{red: 0, blue: 255, green: 0, led: 2}
+	color := LedColor{Red: 0, Blue: 255, Green: 0, Led: 2}
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(color)
 	res, err := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
@@ -104,8 +104,8 @@ func (c *BlinktController) PodAdded(obj interface{}) {
 }
 
 type LedColor struct {
-	red   int32
-	green int32
-	blue  int32
-	led   int32
+	Red   int32 `json:"red"`
+	Green int32 `json:"green"`
+	Blue  int32 `json:"blue"`
+	Led   int32 `json:"led"`
 }
