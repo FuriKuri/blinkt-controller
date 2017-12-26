@@ -86,10 +86,25 @@ type BlinktController struct {
 
 func (c *BlinktController) PodDeleted(obj interface{}) {
 	pod := obj.(*core_v1.Pod)
-	val, _ := pod.Annotations["blinkt.furikuri.net/color"]
-	fmt.Println("Pod deleted")
-	fmt.Println(val)
-	fmt.Println(pod.Status.HostIP)
+
+	val, ok := pod.Annotations["blinkt.furikuri.net/color"]
+	if !ok {
+		return
+	}
+
+	blinktIP, ok := c.blinkts[pod.Status.HostIP]
+	if !ok {
+		return
+	}
+
+	color := colors[val]
+	b := new(bytes.Buffer)
+	json.NewEncoder(b).Encode(LedColor{Red: 0, Blue: 0, Green: 0, Led: color.Led})
+	res, err := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
+	if err != nil {
+		log.Fatal(err)
+	}
+	io.Copy(os.Stdout, res.Body)
 }
 
 func (c *BlinktController) PodAdded(obj interface{}) {
