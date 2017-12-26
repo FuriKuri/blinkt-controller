@@ -1,0 +1,186 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: red-deployment
+spec:
+  selector:
+    matchLabels:
+      app: red
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: red
+      annotations:
+        blinkt.furikuri.net/color: red
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: red
+        image: gcr.io/google_containers/pause-arm:3.0
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: brown-deployment
+spec:
+  selector:
+    matchLabels:
+      app: brown
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: brown
+      annotations:
+        blinkt.furikuri.net/color: brown
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: brown
+        image: gcr.io/google_containers/pause-arm:3.0
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: blue-deployment
+spec:
+  selector:
+    matchLabels:
+      app: blue
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: blue
+      annotations:
+        blinkt.furikuri.net/color: blue
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: blue
+        image: gcr.io/google_containers/pause-arm:3.0
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: orange-deployment
+spec:
+  selector:
+    matchLabels:
+      app: orange
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: orange
+      annotations:
+        blinkt.furikuri.net/color: orange
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: orange
+        image: gcr.io/google_containers/pause-arm:3.0
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: yellow-deployment
+spec:
+  selector:
+    matchLabels:
+      app: yellow
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: yellow
+      annotations:
+        blinkt.furikuri.net/color: yellow
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: yellow
+        image: gcr.io/google_containers/pause-arm:3.0
+
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: green-deployment
+spec:
+  selector:
+    matchLabels:
+      app: green
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: green
+      annotations:
+        blinkt.furikuri.net/color: green
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: green
+        image: gcr.io/google_containers/pause-arm:3.0
+
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: violet-deployment
+spec:
+  selector:
+    matchLabels:
+      app: violet
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: violet
+      annotations:
+        blinkt.furikuri.net/color: violet
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: violet
+        image: gcr.io/google_containers/pause-arm:3.0
+
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: grey-deployment
+spec:
+  selector:
+    matchLabels:
+      app: grey
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: grey
+      annotations:
+        blinkt.furikuri.net/color: grey
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: grey
+        image: gcr.io/google_containers/pause-arm:3.0
