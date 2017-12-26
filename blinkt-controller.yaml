@@ -43,4 +43,4 @@ spec:
       serviceAccountName: blinkt-controller
       containers:
         - name: blinkt-controller
-          image: furikuri/blinkt-controller:latest
+          image: furikuri/blinkt-controller:2
