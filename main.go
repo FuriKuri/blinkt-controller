@@ -69,7 +69,7 @@ func main() {
 		0, //Skip resync
 		cache.ResourceEventHandlerFuncs{
 			AddFunc:    func(new interface{}) { bc.PodAdded(new) },
-			UpdateFunc: func(old, new interface{}) { bc.PodAdded(new) },
+			UpdateFunc: func(old, new interface{}) { bc.PodDeleted(old); bc.PodAdded(new) },
 			DeleteFunc: func(new interface{}) { bc.PodDeleted(new) },
 		},
 	)
