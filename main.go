@@ -21,8 +21,19 @@ import (
 )
 
 var kubecfg string
+var colors map[string]LedColor
 
 func main() {
+	colors = map[string]LedColor{
+		"red":    LedColor{Red: 255, Blue: 0, Green: 0, Led: 0},
+		"brown":  LedColor{Red: 139, Blue: 19, Green: 69, Led: 1},
+		"orange": LedColor{Red: 255, Blue: 0, Green: 69, Led: 2},
+		"yellow": LedColor{Red: 255, Blue: 0, Green: 255, Led: 3},
+		"green":  LedColor{Red: 0, Blue: 0, Green: 255, Led: 4},
+		"blue":   LedColor{Red: 0, Blue: 255, Green: 0, Led: 5},
+		"violet": LedColor{Red: 128, Blue: 128, Green: 0, Led: 6},
+		"grey":   LedColor{Red: 255, Blue: 100, Green: 255, Led: 7},
+	}
 	var config *rest.Config
 
 	flag.StringVar(&kubecfg, "kubeconfig", "", "Path to kubeconfig")
@@ -59,7 +70,7 @@ func main() {
 		cache.ResourceEventHandlerFuncs{
 			AddFunc:    func(new interface{}) { bc.PodAdded(new) },
 			UpdateFunc: func(old, new interface{}) { bc.PodAdded(new) },
-			DeleteFunc: func(new interface{}) {},
+			DeleteFunc: func(new interface{}) { bc.PodDeleted(new) },
 		},
 	)
 	bc.controller = controller
@@ -71,6 +82,14 @@ type BlinktController struct {
 	client     kubernetes.Interface
 	controller cache.Controller
 	blinkts    map[string]string
+}
+
+func (c *BlinktController) PodDeleted(obj interface{}) {
+	pod := obj.(*core_v1.Pod)
+	val, _ := pod.Annotations["blinkt.furikuri.net/color"]
+	fmt.Println("Pod deleted")
+	fmt.Println(val)
+	fmt.Println(pod.Status.HostIP)
 }
 
 func (c *BlinktController) PodAdded(obj interface{}) {
@@ -91,9 +110,7 @@ func (c *BlinktController) PodAdded(obj interface{}) {
 		return
 	}
 
-	fmt.Println(blinktIP)
-	fmt.Println(val)
-	color := LedColor{Red: 0, Blue: 255, Green: 0, Led: 2}
+	color := colors[val]
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(color)
 	res, err := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
