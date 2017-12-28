@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: http-blinkt
+  namespace: default
+  labels:
+    k8s-app: http-blinkt
+spec:
+  selector:
+    matchLabels:
+      name: http-blinkt
+  template:
+    metadata:
+      labels:
+        name: http-blinkt
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: http-blinkt
+        image: furikuri/http-blinkt
+        ports:
+          - containerPort: 5000
+        securityContext:
+          privileged: true
