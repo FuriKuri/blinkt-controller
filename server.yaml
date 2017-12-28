@@ -19,7 +19,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: http-blinkt
-        image: furikuri/http-blinkt
+        image: furikuri/http-blinkt:latest
         ports:
           - containerPort: 5000
         securityContext:
