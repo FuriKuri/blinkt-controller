@@ -8,7 +8,6 @@ import (
 	core_v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
-	"log"
 	"net/http"
 	"os"
 )
@@ -35,10 +34,7 @@ func (c *BlinktController) PodDeleted(obj interface{}) {
 	color := Colors[val]
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(LedColor{Red: 0, Blue: 0, Green: 0, Led: color.Led})
-	res, err := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
-	if err != nil {
-		log.Fatal(err)
-	}
+	res, _ := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
 	io.Copy(os.Stdout, res.Body)
 }
 
@@ -63,9 +59,5 @@ func (c *BlinktController) PodAdded(obj interface{}) {
 	color := Colors[val]
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(color)
-	res, err := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
-	if err != nil {
-		log.Fatal(err)
-	}
-	io.Copy(os.Stdout, res.Body)
+	res, _ := http.Post("http://"+blinktIP+":5000/set_color", "application/json; charset=utf-8", b)
 }
