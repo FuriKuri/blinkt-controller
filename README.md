@@ -16,7 +16,7 @@ kubectl apply -f https://raw.githubusercontent.com/FuriKuri/blinkt-controller/ma
 
 ## Usage
 
-If a pod has an annotation `blinkt.furikuri.net/color: <color>`, the corresponding raspberry pi will activate the LED <color>.
+If a pod has an annotation `blinkt.furikuri.net/color: color`, the corresponding raspberry pi will activate the LED `color`.
 
 The following example will deploy a pod with a nginx container. If the pod will scheduled on a node, the one LED will be appear green:
 
